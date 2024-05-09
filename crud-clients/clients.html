@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Management System</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        margin-bottom: 20px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        margin: 5px;
+        width: calc(50% - 12px);
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="submit"], input[type="button"] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover, input[type="button"]:hover {
+        background-color: #45a049;
+    }
+    .client-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .client-list li {
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 4px;
+    }
+    .client-list li button {
+        padding: 8px 15px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .delete-btn {
+        background-color: #f44336;
+    }
+    .modify-btn {
+        background-color: #008CBA;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Client Management System</h1>
+
+    <form id="client-form">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="email" placeholder="Email" required>
+        <input type="text" id="phone" placeholder="Phone">
+        <input type="text" id="address" placeholder="Address">
+        <input type="submit" value="Add Client">
+    </form>
+
+    <ul id="client-list" class="client-list">
+        <!-- Client items will be dynamically added here -->
+    </ul>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const clientForm = document.getElementById('client-form');
+    const clientList = document.getElementById('client-list');
+
+    // Load clients from LocalStorage on page load
+    loadClients();
+
+    clientForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        addClient();
+    });
+
+    function addClient() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+
+        if (name && email) {
+            const client = {
+                name: name,
+                email: email,
+                phone: phone,
+                address: address
+            };
+
+            // Save client to LocalStorage
+            localStorage.setItem(email, JSON.stringify(client));
+
+            // Clear form fields
+            clearFormFields();
+
+            // Reload clients
+            loadClients();
+        }
+    }
+
+    function loadClients() {
+        clientList.innerHTML = '';
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const client = JSON.parse(localStorage.getItem(key));
+            addClientToList(key, client);
+        }
+    }
+
+    function addClientToList(email, client) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <strong>${client.name}</strong><br>
+            <span>Email: ${email}</span><br>
+            <span>Phone: ${client.phone || '-'}</span><br>
+            <span>Address: ${client.address || '-'}</span><br>
+            <button class="delete-btn">Delete</button>
+            <button class="modify-btn">Modify</button>
+        `;
+        clientList.appendChild(li);
+
+        // Attach event listeners to newly created buttons
+        li.querySelector('.delete-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this client?')) {
+                deleteClient(email);
+            }
+        });
+
+        li.querySelector('.modify-btn').addEventListener('click', function() {
+            populateFormFields(client);
+            replaceSubmitWithSaveButton(email);
+        });
+    }
+
+    function deleteClient(email) {
+        localStorage.removeItem(email);
+        loadClients();
+    }
+
+    function populateFormFields(client) {
+        document.getElementById('name').value = client.name;
+        document.getElementById('email').value = client.email;
+        document.getElementById('phone').value = client.phone || '';
+        document.getElementById('address').value = client.address || '';
+    }
+
+    function replaceSubmitWithSaveButton(email) {
+        const form = document.getElementById('client-form');
+        form.innerHTML = `
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="text" id="phone" placeholder="Phone">
+            <input type="text" id="address" placeholder="Address">
+            <input type="button" value="Save" class="save-btn">
+        `;
+
+        // Add event listener to save button
+        document.querySelector('.save-btn').addEventListener('click', function() {
+            updateClient(email);
+        });
+    }
+
+    function updateClient(email) {
+        const newName = document.getElementById('name').value;
+        const newEmail = document.getElementById('email').value;
+        const newPhone = document.getElementById('phone').value;
+        const newAddress = document.getElementById('address').value;
+
+        if (newName && newEmail) {
+            const client = {
+                name: newName,
+                email: newEmail,
+                phone: newPhone,
+                address: newAddress
+            };
+
+            // Remove existing client data
+            localStorage.removeItem(email);
+
+            // Save updated client to LocalStorage
+            localStorage.setItem(newEmail, JSON.stringify(client));
+
+            // Clear form fields
+            clearFormFields();
+
+            // Change back to submit button
+            resetForm();
+            
+            // Reload clients
+            loadClients();
+        }
+    }
+
+    function clearFormFields() {
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('address').value = '';
+    }
+
+    function resetForm() {
+        const form = document.getElementById('client-form');
+        form.innerHTML = `
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="text" id="phone" placeholder="Phone">
+            <input type="text" id="address" placeholder="Address">
+            <input type="submit" value="Add Client">
+        `;
+    }
+});
+</script>
+
+</body>
+</html>
