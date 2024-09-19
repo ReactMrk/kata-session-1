@@ -157,7 +157,7 @@
 
       li.querySelector('.modify-btn').addEventListener('click', function() {
         replaceSubmitWithSaveButton(email);
-        populateFormFields(client);
+        populateFormFieldsWhenModify(client);
       });
 
       li.querySelector('.verify-btn').addEventListener('click', function() {
@@ -170,12 +170,12 @@
       loadClients();
     }
 
-    const populateFormFields = (client) => {
+    const populateFormFieldsWhenModify = client => {
       document.getElementById('name').value = client?.name;
       document.getElementById('email').value = client?.email;
-      document.getElementById('phone').value = client?.phone || '';
-      document.getElementById('address').value = client?.addressInfo?.name || '';
-      document.getElementById('addressNumber').value = client?.addressInfo?.number || '';
+      document.getElementById('phone').value = client?.phone;
+      document.getElementById('address').value = client?.addressInfo?.name;
+      document.getElementById('addressNumber').value = client?.addressInfo?.number;
     }
 
     function replaceSubmitWithSaveButton(email) {
@@ -199,8 +199,8 @@
       const client = JSON.parse(localStorage.getItem(email));
       const verifiedClient = {...client, isVerified: true}
 
-        localStorage.setItem(email, JSON.stringify(verifiedClient));
-        loadClients();
+      localStorage.setItem(email, JSON.stringify(verifiedClient));
+      loadClients();
     }
 
 
