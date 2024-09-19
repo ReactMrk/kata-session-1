@@ -1,119 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Management System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-    }
-    form {
-      margin-bottom: 20px;
-    }
-    input[type="text"] {
-      padding: 10px;
-      margin: 5px;
-      width: calc(50% - 12px);
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    input[type="submit"], input[type="button"] {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    input[type="submit"]:hover, input[type="button"]:hover {
-      background-color: #45a049;
-    }
-    .client-list {
-      list-style-type: none;
-      padding: 0;
-    }
-    .client-list li {
-      margin-bottom: 10px;
-      padding: 10px;
-      background-color: #f9f9f9;
-      border-radius: 4px;
-    }
-    .client-list li button {
-      padding: 8px 15px;
-      margin-left: 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .delete-btn {
-      background-color: #f44336;
-    }
-    .modify-btn {
-      background-color: #008CBA;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin: 5px;
+            width: calc(50% - 12px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"], input[type="button"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        .client-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .client-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .client-list li button {
+            padding: 8px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        .modify-btn {
+            background-color: #008CBA;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Client Management System</h1>
+    <h1>Client Management System</h1>
 
-  <form id="client-form">
-    <input type="text" id="name" placeholder="Name" required />
-    <input type="text" id="email" placeholder="Email" required>
-    <input type="text" id="phone" placeholder="Phone">
-    <input type="text" id="address" placeholder="Address Name">
-    <input type="text" id="addressNumber" placeholder="Address Number">
-    <input type="submit" value="Add Client">
-  </form>
+    <form id="client-form">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="text" id="email" placeholder="Email" required>
+        <input type="text" id="phone" placeholder="Phone">
+        <input type="text" id="address" placeholder="Address Name">
+        <input type="text" id="addressNumber" placeholder="Address Number">
+        <input type="submit" value="Add Client">
+    </form>
 
-  <ul id="client-list" class="client-list">
-    <!-- Client items will be dynamically added here -->
-  </ul>
+    <ul id="client-list" class="client-list">
+        <!-- Client items will be dynamically added here -->
+    </ul>
 </div>
 
 <script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const clientForm = document.getElementById('client-form');
-    const clientList = document.getElementById('client-list');
+    document.addEventListener('DOMContentLoaded', function() {
+        const clientForm = document.getElementById('client-form');
+        const clientList = document.getElementById('client-list');
 
-    const loadClients = () => {
-      clientList.innerHTML = '';
+        const loadClients = () => {
+            clientList.innerHTML = '';
 
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const client = JSON.parse(localStorage.getItem(key));
-        loadClient(key, client);
-      }
-    }
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const client = JSON.parse(localStorage.getItem(key));
+                loadClient(key, client);
+            }
+        }
 
-    const clearFormFields = () => {
-      document.getElementById('name').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('address').value = '';
-      document.getElementById('addressNumber').value = '';
-    }
+        const clearFormFields = () => {
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('addressNumber').value = '';
+        }
 
-    const replaceSubmitWithSaveButton = (email) => {
-      const form = document.getElementById('client-form');
-      form.innerHTML = `
+        const replaceSubmitWithSaveButton = (email) => {
+            const form = document.getElementById('client-form');
+            form.innerHTML = `
             <input type="text" id="name" placeholder="Name" required>
             <input type="text" id="email" placeholder="Email" required>
             <input type="text" id="phone" placeholder="Phone">
@@ -122,15 +122,15 @@
             <input type="button" value="Save" class="save-btn">
         `;
 
-      document.querySelector('.save-btn').addEventListener('click', function() {
-        updateClient(email);
-      });
-    }
+            document.querySelector('.save-btn').addEventListener('click', function() {
+                updateClient(email);
+            });
+        }
 
 
-    const resetForm = () => {
-      const form = document.getElementById('client-form');
-      form.innerHTML = `
+        const resetForm = () => {
+            const form = document.getElementById('client-form');
+            form.innerHTML = `
             <input type="text" id="name" placeholder="Name" required>
             <input type="text" id="email" placeholder="Email" required>
             <input type="text" id="phone" placeholder="Phone">
@@ -138,42 +138,85 @@
             <input type="text" id="addressNumber" placeholder="Address Number">
             <input type="submit" value="Add Client">
         `;
-    }
-    const loadClient = (email, client) => {
+        }
+        const loadClient = client => {
 
-    }
+            const li = document.createElement('li');
+            li.innerHTML = `
+            <strong>${name}</strong><br>
+            <span>Email: ${email}</span><br>
+            <span>Phone: ${phone || '-'}</span><br>
+            <span>Address: ${address?.name}, ${address?.number}</span><br>
+            <span>Verified: ${client?.isVerified || 'X'}</span><br>
+            <button class="delete-btn">Delete</button>
+            <button class="modify-btn">Modify</button>
+            <button class="verify-btn">Verify customer</button>
+        `;
+            clientList.appendChild(li);
 
-    const addNewClient = () => {
+            // Attach event listeners to newly created buttons
+            li.querySelector('.delete-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this client?')) {
+                    deleteClient(email);
+                }
+            });
 
-    }
+            li.querySelector('.modify-btn').addEventListener('click', function() {
+                replaceSubmitWithSaveButton(email);
+                populateFormFieldsWhenModify(client);
+            });
+
+            li.querySelector('.verify-btn').addEventListener('click', function() {
+                verifyCustomer(email);
+            });
+        }
+
+        const addNewClient = () => {
+
+        }
 
 
-    const deleteClient = (email) => {
+        const deleteClient = email => {
+            localStorage.removeItem(email);
+            loadClients();
+        }
 
-    }
+        const populateFormFieldsWhenModify = client => {
 
-    const populateFormFields = (client) => {
+        }
 
-    }
+        const updateClient = email => {
+            // Retrieve the data here
 
-    const updateClient = (email) => {
+            if (newName && newEmail) {
+                // Create the client object here
 
-    }
+                localStorage.removeItem(email);
+                localStorage.setItem(newEmail, JSON.stringify(client));
+                clearFormFields();
+                resetForm();
+                loadClients();
+            }
+        }
 
-    const verifyCustomer = (email) => {
+        const verifyCustomer = email => {
+            const client = JSON.parse(localStorage.getItem(email));
+            // Use here the spread operator to modify the isVerified value
 
-    }
+            localStorage.setItem(email, JSON.stringify(verifiedClient));
+            loadClients();
+        }
 
-    // Load clients from LocalStorage on page load
-    loadClients();
+        // Load clients from LocalStorage on page load
+        loadClients();
 
-    clientForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-      addNewClient();
+        clientForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            addNewClient();
+        });
+
+
     });
-
-
-  });
 </script>
 
 </body>
