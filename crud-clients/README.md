@@ -13,7 +13,7 @@ Using `document.getElementById(attributeValueIdHere).value;` retrieve each custo
 
 After that, if the attributes name and email are populated, in just one line create a new object with all the previously retrieved parameters. 
 
-When that's done, call `localStorage.setItem(email, JSON.stringify(client));` to add it into the local storage, and then clear the form fields and reload the clients (both of these methods are already creted).
+When that's done, call `localStorage.setItem(email, JSON.stringify(client));` to add it into the local storage, and then clear the form fields and reload the clients (both of these methods are already created).
 
 
 ## populateFormFieldsWhenModify(client)
