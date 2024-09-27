@@ -9,9 +9,9 @@ Destructure the client to get all the needed information `name, email, phone and
 
 ## addNewClient()
 
-Using `document.getElementById(attributeValueIdHere).value;` retrieve each customer attribute from the form `{name, email, phone, addressInfo: {name, addressNumber}}`. 
+Using `document.getElementById(attributeValueIdHere).value;` retrieve each customer attribute from the form `{name, email, phone, address and addressNumber}`.
 
-After that, if the attributes name and email are populated, in just one line create a new object with all the previously retrieved parameters. 
+After that, if the attributes name and email are populated, in just one line create a new object with all the previously retrieved parameters and the following object structure: `client: {name, email, phone, addressInfo: {name, number}}`.
 
 When that's done, call `localStorage.setItem(email, JSON.stringify(client));` to add it into the local storage, and then clear the form fields and reload the clients (both of these methods are already created).
 
